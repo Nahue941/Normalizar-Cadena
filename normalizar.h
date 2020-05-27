@@ -21,6 +21,7 @@ typedef struct{
     int finSecuencia;//boolean var
     char* inicio;
     int cvpc;//cantidad caracteres validos previos al caracter separador
+    char* caracterSeparador;//Caracter separador
 }SecuenciaPal;
 
 typedef struct{
@@ -28,6 +29,7 @@ typedef struct{
     char* finPal;
     int contCar;//Contador de caracteres escritos. Debe iniciarse en 0
     int numPal;//numero de palabra. Contador a iniciar en 0
+
 }Palabra;
 
 char* normalizar(const char* aNormalizar, char* normalizada);
@@ -50,6 +52,6 @@ void crearPalabra (Palabra* pal);
 int cantCarVal(SecuenciaPal* sec, char car);//cantidad de caracteres validos
 Palabra* leerPalabraApYN(SecuenciaPal* sec,Palabra* pal);
 Palabra* escribirPalabraApYN(SecuenciaPal* sec, Palabra* palO, Palabra* palD);//Palabra Origen||Palabra Destino
-void formatearPalApYNPalabra(Palabra* pal, int cantPal);
-void formatearPalApYNCaracteres(Palabra* pal, int numCar);
+void formatearPalApYNPalabra(Palabra* pal, int cantPal, SecuenciaPal* sec);
+void formatearPalApYNCaracteres(Palabra* pal, int numCar, SecuenciaPal* sec);
 #endif // NORMALIZAR_H_INCLUDED

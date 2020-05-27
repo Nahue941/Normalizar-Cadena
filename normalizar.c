@@ -120,12 +120,13 @@ char* normalizarApYN(const char* aNormalizar, char* normalizada, char carSeparad
     crearPalabra(&palO);//Necesario para inicializar en 0 esa variable.
     crearPalabra(&palD);
 
-    secD.cvpc = buscarCaracter(&secO, carSeparador);
+    secD.cvpc = buscarCaracter(&secO, carSeparador);//Mejorar esto con el caracter separador incluido en la estructura
+    secD.caracterSeparador = &carSeparador;
 
     leerPalabraApYN(&secO, &palO);
     while(!finSecuencia(&secO)){
         escribirPalabraApYN(&secD, &palO, &palD);
-        secD.cvpc==0?formatearPalApYNPalabra(&palD, cantPalPorDefecto):formatearPalApYNCaracteres(&palD, secD.cvpc);
+        secD.cvpc==0?formatearPalApYNPalabra(&palD, cantPalPorDefecto, &secD):formatearPalApYNCaracteres(&palD, secD.cvpc, &secD);
         escribirCaracter(&secD, ' ');//Agregar ', '
         leerPalabraApYN(&secO, &palO);
     }
@@ -172,11 +173,16 @@ Palabra* escribirPalabraApYN(SecuenciaPal* sec, Palabra* palO, Palabra* palD)
     return palD;
 }
 
-void formatearPalApYNPalabra(Palabra* pal, int cantPal)
+void formatearPalApYNPalabra(Palabra* pal, int cantPal, SecuenciaPal* sec)
 {
     if (cantPal >= pal->numPal){//APELLIDO
-        for (char* act = pal->iniPal; act<=pal->finPal; act++)
+        char* act = pal->iniPal;
+        for (; act<=pal->finPal; act++)
             *act = aMayus(*act);
+        if (cantPal == pal->numPal){
+            *act = *sec->caracterSeparador;
+            sec->cursor++;
+        }
     }
     else{//Nombre
         *pal->iniPal = aMayus(*pal->iniPal);
@@ -184,13 +190,19 @@ void formatearPalApYNPalabra(Palabra* pal, int cantPal)
         for (char* act = pal->iniPal + 1; act<=pal->finPal; act++)
             *act = aMinus(*act);
     }
+
 }
 
-void formatearPalApYNCaracteres(Palabra* pal, int numCar)
+void formatearPalApYNCaracteres(Palabra* pal, int numCar, SecuenciaPal* sec)
 {
     if (numCar >= pal->contCar){//APELLIDO
-        for (char* act = pal->iniPal; act<=pal->finPal; act++)
+        char* act = pal->iniPal;
+        for (; act<=pal->finPal; act++)
             *act = aMayus(*act);
+        if (numCar == pal->contCar){
+            *act = *sec->caracterSeparador;
+            sec->cursor++;
+        }
     }
     else{//Nombre
         *pal->iniPal = aMayus(*pal->iniPal);

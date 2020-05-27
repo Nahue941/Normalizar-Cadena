@@ -25,7 +25,7 @@ int main(int argc, char* argv[])
 //
 //    fclose(aNormalizarA);
 //    fclose(normalizadoA);
-    char cad1[]={"      estA      ....E.S  ....   UNa ||||   / CaDENa dE Prueba"}, cad2[TAM_LINEA];
+    char cad1[]={"      pAiVA$&*&$#@|gordIlLo0$&*  .,...   naHUEl ||||   / aLEjO"}, cad2[TAM_LINEA];
     printf("La cadena a normalizar: %s\n",cad1);
     normalizarApYN(cad1,cad2,'|',2);
     printf("La cadena normalizada: %s\n",cad2);
