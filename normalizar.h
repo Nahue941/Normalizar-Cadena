@@ -33,7 +33,7 @@ typedef struct{
 }Palabra;
 
 char* normalizar(const char* aNormalizar, char* normalizada);
-void crearSecuencia(SecuenciaPal* sec,char* cad);
+void crearSecuencia(SecuenciaPal* sec,char* cad, char* car);
 Palabra* leerPalabra(SecuenciaPal* sec,Palabra* palabra);
 Palabra* escribirPalabra(SecuenciaPal* sec, Palabra* palabra, Palabra* palabraDest);
 void formatearPalabra(Palabra* palabra);
@@ -46,10 +46,10 @@ char aMinus(char car);
 int esLetra(char car);
 
 char* normalizarApYN(const char* aNormalizar, char* normalizada, char carSeparador, int cantPalPorDefecto);
-int buscarCaracter(SecuenciaPal* sec,char car);
+int buscarCaracter(SecuenciaPal* sec);
 void formatearPalabraApYN(Palabra* pal, int posCar);
 void crearPalabra (Palabra* pal);
-int cantCarVal(SecuenciaPal* sec, char car);//cantidad de caracteres validos
+int cantCarVal(SecuenciaPal* sec);//cantidad de caracteres validos
 Palabra* leerPalabraApYN(SecuenciaPal* sec,Palabra* pal);
 Palabra* escribirPalabraApYN(SecuenciaPal* sec, Palabra* palO, Palabra* palD);//Palabra Origen||Palabra Destino
 void formatearPalApYNPalabra(Palabra* pal, int cantPal, SecuenciaPal* sec);

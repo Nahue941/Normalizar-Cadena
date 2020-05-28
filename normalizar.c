@@ -4,8 +4,8 @@ char* normalizar(const char* aNormalizar, char* normalizada)
 {
     SecuenciaPal secOrig, secDest;
 
-    crearSecuencia(&secOrig, (char*)aNormalizar);
-    crearSecuencia(&secDest, normalizada);
+    crearSecuencia(&secOrig, (char*)aNormalizar,",");
+    crearSecuencia(&secDest, normalizada,",");
 
     Palabra palabra, palabraDest;
 
@@ -24,12 +24,13 @@ char* normalizar(const char* aNormalizar, char* normalizada)
 
 }
 
-void crearSecuencia(SecuenciaPal* sec,char* cad)
+void crearSecuencia(SecuenciaPal* sec,char* cad, char* car)
 {
     sec->cursor = cad;
     sec->finSecuencia = FALSE;
     sec->inicio = cad;
     sec->cvpc=0;
+    sec->caracterSeparador = car;
 }
 
 Palabra* leerPalabra(SecuenciaPal* sec,Palabra* palabra)
@@ -113,26 +114,25 @@ int esLetra(char car)
 char* normalizarApYN(const char* aNormalizar, char* normalizada, char carSeparador, int cantPalPorDefecto)
 {
     SecuenciaPal secO, secD;
-    crearSecuencia(&secO, (char*)aNormalizar);
-    crearSecuencia(&secD, normalizada);
+    crearSecuencia(&secO, (char*)aNormalizar, &carSeparador);
+    crearSecuencia(&secD, normalizada, &carSeparador);
 
     Palabra palO, palD;
     crearPalabra(&palO);//Necesario para inicializar en 0 esa variable.
     crearPalabra(&palD);
 
-    secD.cvpc = buscarCaracter(&secO, carSeparador);//Mejorar esto con el caracter separador incluido en la estructura
-    secD.caracterSeparador = &carSeparador;
+    secD.cvpc = buscarCaracter(&secO);//Mejorado, el caracter esta dentro de la estructura
 
     leerPalabraApYN(&secO, &palO);
     while(!finSecuencia(&secO)){
         escribirPalabraApYN(&secD, &palO, &palD);
         secD.cvpc==0?formatearPalApYNPalabra(&palD, cantPalPorDefecto, &secD):formatearPalApYNCaracteres(&palD, secD.cvpc, &secD);
-        escribirCaracter(&secD, ' ');//Agregar ', '
+        escribirCaracter(&secD, ' ');
         leerPalabraApYN(&secO, &palO);
     }
 
-    moverCursor(&secD, -1);///Limite
-    escribirCaracter(&secD, '\0');///Limite
+    moverCursor(&secD, -1);
+    escribirCaracter(&secD, '\0');
 
     return normalizada;
 }
@@ -212,12 +212,12 @@ void formatearPalApYNCaracteres(Palabra* pal, int numCar, SecuenciaPal* sec)
     }
 }
 
-int buscarCaracter(SecuenciaPal* sec,char car)//PROBAR HACER CARACTER CONST
+int buscarCaracter(SecuenciaPal* sec)//PROBAR HACER CARACTER CONST
 {
     int cont=0;
 
     while(!finSecuencia(sec))
-        cont += cantCarVal(sec, car);
+        cont += cantCarVal(sec);
     if(!*sec->cursor)
         cont=0;
 
@@ -227,12 +227,12 @@ int buscarCaracter(SecuenciaPal* sec,char car)//PROBAR HACER CARACTER CONST
     return cont;
 }
 
-int cantCarVal(SecuenciaPal* sec, char car)
+int cantCarVal(SecuenciaPal* sec)
 {
     int cont=0;
-    while (!esLetra(*sec->cursor) && *sec->cursor != car && *sec->cursor)
+    while (!esLetra(*sec->cursor) && *sec->cursor != *sec->caracterSeparador && *sec->cursor)
         sec->cursor++;
-    if (*sec->cursor == car){
+    if (*sec->cursor == *sec->caracterSeparador ){
         sec->finSecuencia=TRUE;
         return cont;
     }
